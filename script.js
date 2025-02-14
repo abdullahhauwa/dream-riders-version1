@@ -113,6 +113,75 @@ e.preventDefault();
 dropdown.classList.toggle('show');
 });
 
+
+// Begining of Form Search Code
+const formSearch = document.getElementById('form-search');
+const locationSearch = document.getElementById('location-search');
+const searchButton = document.getElementById('search-button');
+const locationList = document.getElementById('location-list');
+const locations = [
+ 
+  {
+    name: 'Abuja',
+    address: '23, Julius Nyerere Crescent, Asokoro, Abuja, FCT, Nigeria',
+    mapUrl: 'https://www.google.com/maps/embed?...',
+    contact: '+234 803 456 7890',
+    email: 'Dreamrideabj@gmail.com',
+  },
+  {
+    name: 'Lagos',
+    address: '14, Adeola Odeku Street, Victoria Island, Lagos, Nigeria',
+    mapUrl: 'https://www.google.com/maps/embed?...',
+    contact: '+234 809 123 4567',
+    email: 'Dreamridelag@gmail.com',
+  },
+  {
+    name: 'Port Harcourt',
+    address: '56, Olu Obasanjo Road, Port Harcourt, Rivers State, Nigeria',
+    mapUrl: 'https://www.google.com/maps/embed?...',
+    contact: '+234 701 987 6543',
+    email: 'Dreamrideph@yahoo.com',
+  }
+];
+
+searchButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  const searchQuery = locationSearch.value.trim().toLowerCase();
+  if (searchQuery === '') {
+    alert('Please enter a location to search');
+    return;
+  }
+  const filteredLocations = locations.filter((location) => location.name.toLowerCase().includes(searchQuery));
+  displayLocations(filteredLocations);
+});
+
+function displayLocations(locations) {
+  locationList.innerHTML = '';
+  if (locations.length === 0) {
+    locationList.innerHTML = '<p class="no-results">Sorry, there is no result matching your search.</p>';
+    setTimeout(() => {
+      locationList.innerHTML = '';
+    }, 2000); // hide after 2 seconds
+
+  } else {
+    locations.forEach((location) => {
+      const locationHTML = `
+        <div class="location">
+          <p>${location.address}</p>
+          <div class="map">
+            <iframe src="${location.mapUrl}" width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe>
+          </div>
+          <p>Contact: ${location.contact} <a href="mailto:${location.email}">${location.email}</a></p>
+        </div>
+      `;
+      locationList.insertAdjacentHTML('beforeend', locationHTML);
+    });
+  }
+  locationList.style.display = 'block';
+}
+// Ending of Form Search Code
+
+
 // Add event listener to form button
 formButton.addEventListener('click', (e) => {
 e.preventDefault();
@@ -125,12 +194,12 @@ const pickUpTime = pickUpTimeInput.value;
 const destination = destinationInput.value;
 const dropOffDate = dropOffDateInput.value;
 const dropOffTime = dropOffTimeInput.value;
+
+
 // Simulate delay
 setTimeout(() => {
-
 // Hide loader
 loaderContainer.style.display = 'none';
-
 // Display alert
 alert(`You have booked a car from ${pickUpLocation} on ${pickUpDate} at ${pickUpTime} to ${destination} to be returned on ${dropOffDate} at ${dropOffTime}`);
 // Log input values to console
@@ -145,3 +214,40 @@ console.log({
 }, 3000);
 });
 
+
+// Testimonials and Reviews code
+
+
+// Select all the question buttons
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+//Loop through each question button
+faqQuestions.forEach(question => {
+    // Add a click event listener to each question
+    question.addEventListener('click', () => {
+        // Close any other open answer except the one clicked
+        faqQuestions.forEach(item => {
+            if (item !== question) {
+                item.classList.remove('active');
+                item.nextElementSibling.style.maxHeight = null;
+            }
+        });
+
+        //toggle 'active' class on the clicked question to rotate the arrow
+        question.classList.toggle('active');
+
+        // Select the corresponding answer div
+        const answer = question.nextElementSibling;
+
+        //Check if the answer is already open
+        if (answer.style.maxHeight) {
+            // If open, close it by resetting max-height
+            answer.style.maxHeight = null;
+        } else {
+            // If closed, set max-height to scrollHeight to expand it
+            answer.style.maxHeight = answer.scrollHeight + 'px'
+        }
+    });
+});
+
+// End of Testimonials and Review code
