@@ -332,7 +332,10 @@ text-align: right;
 .navbar-brand {
 font-size: 4em;
 font-weight: bold;
-margin-right: 1em;
+margin-bottom: 40px;
+text-align: center;
+margin: auto;
+padding-bottom: 20px;
 }
 
 .navbar-menu {
